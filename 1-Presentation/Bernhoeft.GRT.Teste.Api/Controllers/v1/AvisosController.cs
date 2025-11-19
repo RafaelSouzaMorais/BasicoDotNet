@@ -53,6 +53,9 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [HttpPost]
         public async Task<object> CreateAviso([FromBody] CreateAvisoRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(request, cancellationToken);
+        [HttpPut]
+        public async Task<object> UpdateAviso([FromBody] UpdateAvisoRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(request, cancellationToken);
 
 
     }

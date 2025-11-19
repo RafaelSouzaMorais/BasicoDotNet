@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Entities;
 using Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Interfaces.Repositories;
 using Bernhoeft.GRT.Core.EntityFramework.Domain.Interfaces;
+using Bernhoeft.GRT.Core.Enums;
 using Bernhoeft.GRT.Core.Interfaces.Results;
 using Bernhoeft.GRT.Core.Models;
 using Bernhoeft.GRT.Teste.Application.Requests.Commands.v1;
@@ -37,7 +38,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
             await _avisoRepository.AdicionarAvisoAsync(newAviso, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return OperationResult<CreateAvisoResponse>.Return( Core.Enums.CustomHttpStatusCode.Created, (CreateAvisoResponse)newAviso);
+            return OperationResult<CreateAvisoResponse>.Return(CustomHttpStatusCode.Created, (CreateAvisoResponse)newAviso);
         }
     }
 }
