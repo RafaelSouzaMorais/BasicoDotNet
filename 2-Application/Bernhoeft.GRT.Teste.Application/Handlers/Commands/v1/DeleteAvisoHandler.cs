@@ -16,41 +16,39 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
 {
-    public class UpdateAvisoHandler : IRequestHandler<UpdateAvisoRequest, IOperationResult<UpdateAvisoResponse>>
+    public class DeleteAvisoHandler : IRequestHandler<DeleteAvisoRequest, IOperationResult<object>>
     {
         private readonly IServiceProvider _serviceProvider;
         private IContext _context => _serviceProvider.GetRequiredService<IContext>();
         private IAvisoRepository _avisoRepository => _serviceProvider.GetRequiredService<IAvisoRepository>();
-        public UpdateAvisoHandler(IServiceProvider serviceProvider)
+        public DeleteAvisoHandler(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<IOperationResult<UpdateAvisoResponse>> Handle(UpdateAvisoRequest request, CancellationToken cancellationToken)
+        public async Task<IOperationResult<object>> Handle(DeleteAvisoRequest request, CancellationToken cancellationToken)
         {
             var existingAviso = await _avisoRepository.ObterAvisoPorIdAsync(request.Id, TrackingBehavior.Default, cancellationToken);
 
             if(existingAviso is null
                 || !existingAviso.Ativo)
             {
-                return OperationResult<UpdateAvisoResponse>.ReturnNotFound();
+                return OperationResult<object>.ReturnNotFound();
             }
 
-            existingAviso.Titulo = request.Titulo;
-            existingAviso.Mensagem = request.Mensagem;
+            existingAviso.Ativo = false;
 
-            var response = await _avisoRepository.AtualizarAvisoAsync(existingAviso, cancellationToken);
-            if(response == null) 
+            if(await _avisoRepository.AtualizarAvisoAsync(existingAviso, cancellationToken) == null) 
             {
-                return OperationResult<UpdateAvisoResponse>.ReturnBadRequest();
+                return OperationResult<object>.ReturnBadRequest();
             }
 
             if (await _context.SaveChangesAsync(cancellationToken) <= 0)
             {
-                return OperationResult<UpdateAvisoResponse>.ReturnBadRequest();
+                return OperationResult<object>.ReturnBadRequest();
             }
 
-            return OperationResult<UpdateAvisoResponse>.Return(CustomHttpStatusCode.Ok, (UpdateAvisoResponse)response);
+            return OperationResult<object>.ReturnNoContent();
         }
     }
 }
