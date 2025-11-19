@@ -1,4 +1,5 @@
-﻿using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
+﻿using Bernhoeft.GRT.Teste.Application.Requests.Commands.v1;
+using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
 using Bernhoeft.GRT.Teste.Application.Responses.Queries.v1;
 
 namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
@@ -48,5 +49,11 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [HttpGet("{id}")]
         public async Task<object> GetAvisoById(int id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisoRequest { Id = id }, cancellationToken);
+
+        [HttpPost]
+        public async Task<object> CreateAviso([FromBody] CreateAvisoRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(request, cancellationToken);
+
+
     }
 }
