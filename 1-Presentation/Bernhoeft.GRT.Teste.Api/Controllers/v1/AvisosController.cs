@@ -44,5 +44,9 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<object> GetAvisos(CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisosRequest(), cancellationToken);
+
+        [HttpGet("{id}")]
+        public async Task<object> GetAvisoById(int id, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetAvisoRequest { Id = id }, cancellationToken);
     }
 }

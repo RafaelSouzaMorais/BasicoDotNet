@@ -14,6 +14,19 @@ namespace Bernhoeft.GRT.ContractWeb.Infra.Persistence.SqlServer.ContractStore.Re
         {
         }
 
+        public async Task<AvisoEntity?> ObterAvisoPorIdAsync(int id, TrackingBehavior tracking = TrackingBehavior.Default, CancellationToken cancellationToken = default)
+        {
+            return await (tracking is TrackingBehavior.NoTracking ? Set.AsNoTrackingWithIdentityResolution() : Set)
+                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+        }
+
+        public async Task<List<AvisoEntity>> ObterAvisosAtivosAsync(TrackingBehavior tracking = TrackingBehavior.Default, CancellationToken cancellationToken = default)
+        {
+            return await (tracking is TrackingBehavior.NoTracking ? Set.AsNoTrackingWithIdentityResolution() : Set)
+                .Where(a => a.Ativo)
+                .ToListAsync(cancellationToken);
+        }
+
         public Task<List<AvisoEntity>> ObterTodosAvisosAsync(TrackingBehavior tracking = TrackingBehavior.Default, CancellationToken cancellationToken = default)
         {
             var query = tracking is TrackingBehavior.NoTracking ? Set.AsNoTrackingWithIdentityResolution() : Set;

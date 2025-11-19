@@ -22,7 +22,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Queries.v1
 
         public async Task<IOperationResult<IEnumerable<GetAvisosResponse>>> Handle(GetAvisosRequest request, CancellationToken cancellationToken)
         {
-            var result = await _avisoRepository.ObterTodosAvisosAsync(TrackingBehavior.NoTracking);
+            var result = await _avisoRepository.ObterAvisosAtivosAsync(TrackingBehavior.NoTracking);
             if (!result.HaveAny())
                 return OperationResult<IEnumerable<GetAvisosResponse>>.ReturnNoContent();
 
