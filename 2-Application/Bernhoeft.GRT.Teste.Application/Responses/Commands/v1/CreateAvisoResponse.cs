@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Entities;
+﻿using Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Entities;
 
 namespace Bernhoeft.GRT.Teste.Application.Responses.Commands.v1
 {
