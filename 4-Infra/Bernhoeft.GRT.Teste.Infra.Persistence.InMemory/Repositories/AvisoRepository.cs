@@ -28,7 +28,9 @@ namespace Bernhoeft.GRT.ContractWeb.Infra.Persistence.SqlServer.ContractStore.Re
 
         public async Task<AvisoEntity?> ObterAvisoPorIdAsync(int id, TrackingBehavior tracking = TrackingBehavior.Default, CancellationToken cancellationToken = default)
         {
+            //verificar está ativo
             return await (tracking is TrackingBehavior.NoTracking ? Set.AsNoTrackingWithIdentityResolution() : Set)
+                .Where(a => a.Ativo == true)
                 .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
 

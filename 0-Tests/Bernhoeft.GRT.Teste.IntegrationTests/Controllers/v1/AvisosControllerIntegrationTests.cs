@@ -105,6 +105,17 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        [Fact]
+        public async Task GetAvisoById_DeveRetornarNotFound_QuandoAvisoInativo()
+        {
+            // Arrange
+            var avisoId = 3; // Certifique-se de que este ID está inativo no banco de dados de teste
+            // Act
+            var response = await _client.GetAsync($"/api/v1/avisos/{avisoId}");
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
         #endregion
 
         #region Tests UpdateAviso
