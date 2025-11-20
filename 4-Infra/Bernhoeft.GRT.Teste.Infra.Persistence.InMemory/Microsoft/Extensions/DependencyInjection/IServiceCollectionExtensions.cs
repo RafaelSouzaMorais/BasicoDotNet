@@ -31,6 +31,12 @@ namespace Microsoft.Extensions.DependencyInjection
                                    Titulo = "Titulo 2",
                                    Mensagem = "Mensagem 2",
                                });
+                               dbSet.Add(new()
+                               {
+                                   Titulo = "Titulo 3",
+                                   Mensagem = "Mensagem 3",
+                                   Ativo = false
+                               });
                                await context.SaveChangesAsync(cancellationToken);
                            }
                        });

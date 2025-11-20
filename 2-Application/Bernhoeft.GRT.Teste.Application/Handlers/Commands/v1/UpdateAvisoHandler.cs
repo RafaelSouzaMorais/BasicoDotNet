@@ -36,8 +36,8 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
                 return OperationResult<UpdateAvisoResponse>.ReturnNotFound();
             }
 
-            existingAviso.Titulo = request.Titulo;
             existingAviso.Mensagem = request.Mensagem;
+            existingAviso.DataEdicao = DateTime.UtcNow;
 
             var response = await _avisoRepository.AtualizarAvisoAsync(existingAviso, cancellationToken);
             if(response == null) 

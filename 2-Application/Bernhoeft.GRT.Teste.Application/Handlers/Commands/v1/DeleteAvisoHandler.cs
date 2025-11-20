@@ -39,7 +39,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
             existingAviso.Ativo = false;
             existingAviso.DataEdicao = DateTime.UtcNow;
 
-            if (await _avisoRepository.AtualizarAvisoAsync(existingAviso, cancellationToken) == null) 
+            if(await _avisoRepository.AtualizarAvisoAsync(existingAviso, cancellationToken) == null) 
             {
                 return OperationResult<object>.ReturnBadRequest();
             }
