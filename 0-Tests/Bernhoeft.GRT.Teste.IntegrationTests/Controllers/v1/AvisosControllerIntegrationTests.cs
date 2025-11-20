@@ -123,7 +123,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarOk_QuandoDadosValidos()
         {
             // Arrange
-            var payload = new { Mensagem = "Mensagem Teste" };
+            var payload = new { Id = 1, Mensagem = "Mensagem Teste" };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -142,7 +142,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         {
             //Não deve permitir atualizar o titulo
             // Arrange
-            var payload = new { Titulo = "Aviso Teste", Mensagem = "Mensagem Teste" };
+            var payload = new { Id= 1, Titulo = "Aviso Teste", Mensagem = "Mensagem Teste" };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -160,7 +160,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarNotFound_QuandoAvisoNaoExiste()
         {
             // Arrange
-            var payload = new { Mensagem = "Mensagem Teste" };
+            var payload = new { Id = 9999, Mensagem = "Mensagem Teste" };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -175,7 +175,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarBadRequest_QuandoMensagemVazia()
         {
             // Arrange
-            var payload = new { Mensagem = "" };
+            var payload = new { Id = 1, Mensagem = "" };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -190,7 +190,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarBadRequest_QuandoMensagemExcedeTamanho()
         {
             // Arrange
-            var payload = new { Mensagem = new string('A', 1001) };
+            var payload = new { Id = 1, Mensagem = new string('A', 1001) };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -205,7 +205,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarBadRequest_QuandoDadosInvalidos()
         {
             // Arrange
-            var payload = new { Mensagem = (string?)null }; // Dados inválidos
+            var payload = new { Id = 1, Mensagem = (string?)null }; // Dados inválidos
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -220,7 +220,7 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
         public async Task UpdateAviso_DeveRetornarNotFound_QuandoAvisoInativo()
         {
             // Arrange
-            var payload = new { Mensagem = "Mensagem Teste" };
+            var payload = new { Id = 3, Mensagem = "Mensagem Teste" };
             var json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -229,6 +229,19 @@ namespace Bernhoeft.GRT.Teste.IntegrationTests.Controllers.v1
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task UpdateAviso_DeveRetornarBadrequest_QuandoIdInvalido()
+        {
+            // Arrange
+            var payload = new { Id= -1, Mensagem = "Mensagem Teste" };
+            var json = JsonSerializer.Serialize(payload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            // Act
+            var response = await _client.PutAsync("/api/v1/avisos/-1", content);
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
         #endregion
 

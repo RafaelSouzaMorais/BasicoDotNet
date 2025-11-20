@@ -17,23 +17,6 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = null)]
     public class AvisosController : RestApiController
     {
-        ///// <summary>
-        ///// Retorna um Aviso por ID.
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <param name="cancellationToken"></param>
-        ///// <returns>Aviso.</returns>
-        ///// <response code="200">Sucesso.</response>
-        ///// <response code="400">Dados Inválidos.</response>
-        ///// <response code="404">Aviso Não Encontrado.</response>
-        //[HttpGet("{id}")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetAvisoResponse))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[JwtAuthorize(Roles = AuthorizationRoles.CONTRACTLAYOUT_SISTEMA_AVISO_PESQUISAR)]
-        //public async Task<object> GetAviso([FromModel] GetAvisoRequest request, CancellationToken cancellationToken)
-        //    => await Mediator.Send(request, cancellationToken);
-
         /// <summary>
         /// Retorna Todos os Avisos Cadastrados para Tela de Edição.
         /// </summary>
@@ -46,6 +29,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<object> GetAvisos(CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisosRequest(), cancellationToken);
+
         /// <summary>
         /// Retorna um Aviso por ID.
         /// </summary>
@@ -60,7 +44,14 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<object> GetAvisoById(int id, CancellationToken cancellationToken)
-            => await Mediator.Send(new GetAvisoRequest { Id = id }, cancellationToken);
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            return await Mediator.Send(new GetAvisoRequest { Id = id }, cancellationToken);
+        }
 
         /// <summary>
         /// Cria um Novo Aviso.
